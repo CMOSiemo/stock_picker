@@ -8,6 +8,12 @@
 #### _Ruby method that takes an array of consecutive days stock price_
 #### _fluctuations and decides to buy and sell in order to maximize profits_
 
+## Use
+
+    stock_picker(array_of_numbers)
+#### _Where array_of_numbers is an array of price stock price fluctuations per day_
+
+
 ## Technologies Used
 
 * _Ruby_

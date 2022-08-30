@@ -1,29 +1,33 @@
-#Copyright (c) 2022 Claudio Martínez Ortiz
+# frozen_string_literal: true
 
-def stock_picker(fluctuation)
+# Copyright (c) 2022 Claudio Martínez Ortiz
 
-  max_profit = 0
-  holder = fluctuation.each_with_index.reduce([]) do |accum, price| 
-
-    fluctuation.each_with_index do |value, idx|
-      
-      if idx > price[1] && value - price[0] > max_profit
-
-        accum[0] = price[1]
-        accum[1] = idx
-        max_profit = value - price[0]
-
-      end
-
-    end
-
-    accum
-
-  end
-
-  puts "#{holder} # for a profit of $#{fluctuation[holder[1]]} - $#{fluctuation[holder[0]]} == $#{max_profit}"
-  holder
-
+def checker(idx, price1, value, price0, max_profit)
+  idx > price1 && value - price0 > max_profit
 end
 
-stock_picker([17,3,6,9,15,8,6,1,10])
+def message(days, fluctuation, max_profit)
+  puts "#{days} # for a profit of $#{fluctuation[days[1]]} - $#{fluctuation[days[0]]} == $#{max_profit}"
+end
+
+def assign(accum, price, idx, value)
+  accum[0] = price[1]
+  accum[1] = idx
+  value - price[0]
+end
+
+def stock_picker(fluctuation)
+  max_profit = 0
+  days = fluctuation.each_with_index.each_with_object([]) do |price, accum|
+    fluctuation.each_with_index do |value, idx|
+      next unless checker(idx, price[1], value, price[0], max_profit)
+
+      max_profit = assign(accum, price, idx, value)
+    end
+  end
+
+  message(days, fluctuation, max_profit)
+  days
+end
+
+stock_picker([17, 3, 6, 9, 15, 8, 6, 1, 10])
